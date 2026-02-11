@@ -15,7 +15,7 @@ EOT
     redis_access_key    = string
     redis_cache_id      = string
     spring_cloud_app_id = string
-    ssl_enabled         = optional(bool, true)
+    ssl_enabled         = optional(bool) # Default: true
   }))
 }
 
