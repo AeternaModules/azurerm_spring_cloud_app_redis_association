@@ -15,16 +15,8 @@ EOT
     redis_access_key    = string
     redis_cache_id      = string
     spring_cloud_app_id = string
-    ssl_enabled         = optional(bool) # Default: true
+    ssl_enabled         = optional(bool)
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.spring_cloud_app_redis_associations : (
-        length(v.redis_access_key) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_spring_cloud_app_redis_association's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
@@ -41,5 +33,8 @@ EOT
   #   source:    [from redis.ValidateRediID] !ok
   # path: redis_cache_id
   #   source:    [from redis.ValidateRediID] err != nil
+  # path: redis_access_key
+  #   condition: length(value) > 0
+  #   message:   must not be empty
 }
 
